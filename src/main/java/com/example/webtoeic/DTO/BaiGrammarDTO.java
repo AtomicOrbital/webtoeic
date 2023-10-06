@@ -1,44 +1,13 @@
-package com.example.webtoeic.entity;
+package com.example.webtoeic.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import javax.persistence.Column;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "bai_grammar")
-@Builder
-@Data
-public class BaiGrammar {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "baigrammarid", nullable = false)
+public class BaiGrammarDTO {
     private Integer baiGrammarId;
-
-    @Column(name = "tenbaigrammar")
     private String tenBaiGrammar;
-
-    @Column(name = "anhbaigrammar")
     private String anhBaiGrammar;
-
-    @Column(columnDefinition = "TEXT", name="content_HTML")
     private String contentHTML;
-
-    @Column(columnDefinition = "TEXT", name="content_MarkDown")
     private String contentMarkDown;
-
-    public BaiGrammar(){
-
-    }
-
-    public BaiGrammar(Integer baiGrammarId, String tenBaiGrammar, String anhBaiGrammar, String contentHTML, String contentMarkDown) {
-        this.baiGrammarId = baiGrammarId;
-        this.tenBaiGrammar = tenBaiGrammar;
-        this.anhBaiGrammar = anhBaiGrammar;
-        this.contentHTML = contentHTML;
-        this.contentMarkDown = contentMarkDown;
-    }
 
     public Integer getBaiGrammarId() {
         return baiGrammarId;
@@ -77,6 +46,17 @@ public class BaiGrammar {
     }
 
     public void setContentMarkDown(String contentMarkDown) {
+        this.contentMarkDown = contentMarkDown;
+    }
+
+    public BaiGrammarDTO(){
+
+    }
+    public BaiGrammarDTO(Integer baiGrammarId, String tenBaiGrammar, String anhBaiGrammar, String contentHTML, String contentMarkDown) {
+        this.baiGrammarId = baiGrammarId;
+        this.tenBaiGrammar = tenBaiGrammar;
+        this.anhBaiGrammar = anhBaiGrammar;
+        this.contentHTML = contentHTML;
         this.contentMarkDown = contentMarkDown;
     }
 }

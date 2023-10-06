@@ -1,8 +1,13 @@
 package com.example.webtoeic.entity;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity(name = "nguoi_dung")
 //@CrossOrigin("*")
@@ -86,4 +91,6 @@ public class User {
     public void setVaiTro(int vaiTro) {
         this.vaiTro = vaiTro;
     }
+
+
 }

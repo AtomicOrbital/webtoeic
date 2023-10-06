@@ -1,6 +1,7 @@
 package com.example.webtoeic.service;
 
 import com.example.webtoeic.entity.BaiGrammar;
+import com.example.webtoeic.payload.response.BaseResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -9,17 +10,17 @@ import java.util.Optional;
 
 @Service
 public interface BaiGrammarService {
-    public BaiGrammar update(int id, BaiGrammar updatedBaiGrammar);
+    BaseResponse update(int id, BaiGrammar updatedBaiGrammar);
 
-    public BaiGrammar save(BaiGrammar baiGrammar);
+    BaseResponse save(BaiGrammar baiGrammar);
 
-    public Optional<BaiGrammar> getBaiGrammar(int id);
+    BaseResponse getBaiGrammar(int id);
 
-    public Page<BaiGrammar> getBaiGrammar(int page, int limit);
+    BaseResponse getBaiGrammar(int page, int limit);
 
-    public List<BaiGrammar> getAllBaiGrammar();
+    BaseResponse getAllBaiGrammar();
 
-    public boolean delete(int id);
+    BaseResponse delete(int id);
 
-    public List<BaiGrammar> searchListBaiGrammar(String search);
+    BaseResponse searchListBaiGrammar(String search);
 }

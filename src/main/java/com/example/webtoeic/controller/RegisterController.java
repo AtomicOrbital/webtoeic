@@ -1,6 +1,6 @@
 package com.example.webtoeic.controller;
 
-import com.example.webtoeic.DTO.RegisterRequest;
+import com.example.webtoeic.DTO.RegisterRequestDTO;
 import com.example.webtoeic.entity.User;
 import com.example.webtoeic.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +18,11 @@ public class RegisterController {
     private AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request){
+    public ResponseEntity<?> register(@RequestBody RegisterRequestDTO request){
         try {
             User user = authenticationService.register(request.getEmail(), request.getPassword());
             return new ResponseEntity<>(user, HttpStatus.OK);
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException | IllegalAccessException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

@@ -9,13 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.security.Key;
-import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthenticationService {
@@ -30,13 +28,6 @@ public class AuthenticationService {
     // Thời gian có hiêu lực của jwt (10 ngày)
     private final long JWT_EXPIRATION = 864000000L;
 
-    public String createSecretKey() {
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] secretBytes = new byte[36]; //36*8=288 (>256 bits required for HS256)
-        secureRandom.nextBytes(secretBytes);
-        Base64.Encoder encoder = Base64.getUrlEncoder().withoutPadding();
-        return encoder.encodeToString(secretBytes);
-    }
     public String login(String email, String password){
         User user = userRepositoty.findByEmail(email);
         if(user != null && passwordEncoder.matches(password, user.getPassword())){
@@ -46,12 +37,12 @@ public class AuthenticationService {
         throw new BadCredentialsException("Invalid email or password");
     }
 
-    public User register(String email, String password){
+    public User register(String email, String password) throws IllegalAccessException {
         //Kiểm tra xem email tồn tại không
-        User existingUser = userRepositoty.findByEmail(email);
-//        if(existingUser.isPresent()){
-//            throw new IllegalAccessException("Email already in use");
-//        }
+        Optional<User> existingUser = Optional.ofNullable(userRepositoty.findByEmail(email));
+        if(existingUser.isPresent()){
+            throw new IllegalAccessException("Email already in use");
+        }
 
         // Ma hoa mat khau
         String encryptedPassword = passwordEncoder.encode(password);

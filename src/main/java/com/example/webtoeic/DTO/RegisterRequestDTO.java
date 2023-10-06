@@ -1,17 +1,17 @@
 package com.example.webtoeic.DTO;
 
-public class RegisterRequest {
+public class RegisterRequestDTO {
    private String diaChi;
    private String email;
    private String hoTen;
    private String password;
    private String soDienThoai;
 
-   public RegisterRequest(){
+   public RegisterRequestDTO(){
 
    }
 
-    public RegisterRequest(String diaChi, String email, String hoTen, String password, String soDienThoai) {
+    public RegisterRequestDTO(String diaChi, String email, String hoTen, String password, String soDienThoai) {
         this.diaChi = diaChi;
         this.email = email;
         this.hoTen = hoTen;
