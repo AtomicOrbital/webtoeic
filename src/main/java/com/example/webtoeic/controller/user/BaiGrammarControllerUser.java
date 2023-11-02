@@ -1,18 +1,15 @@
 package com.example.webtoeic.controller.user;
 
-import com.example.webtoeic.entity.BaiGrammar;
 import com.example.webtoeic.payload.response.BaseResponse;
 import com.example.webtoeic.service.BaiGrammarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/grammar")
-//@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') ")
+//@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 public class BaiGrammarControllerUser {
     @Autowired
     private BaiGrammarService baiGrammarService;

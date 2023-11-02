@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,6 +35,7 @@ public class CommentGrammarServiceImpl implements CommentGrammarService {
     @Override
     public BaseResponse addComment(CommentGrammarDTO commentGrammarDTO){
         CommentGrammar commentGrammar = converToEntity(commentGrammarDTO);
+        commentGrammar.setTime(LocalDateTime.now());
         try {
             CommentGrammar savedComment = commentGrammarRepository.save(commentGrammar);
             return new BaseResponse(200, "Comment add successfully", savedComment);

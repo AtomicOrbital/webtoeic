@@ -1,9 +1,12 @@
 package com.example.webtoeic.filter;
 
+import com.example.webtoeic.DTO.AuthenticationResponse;
 import com.example.webtoeic.entity.User;
+import com.example.webtoeic.repository.UserRepositoty;
 import com.example.webtoeic.service.AuthenticationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,8 +21,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    @Autowired
+    private UserRepositoty userRepositoty;
+
     private final AuthenticationService authenticationService;
     private final AuthenticationManager authenticationManager;
+
+
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager,AuthenticationService authenticationService){
         this.authenticationManager = authenticationManager;
@@ -29,22 +38,25 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException{
         try {
-            User creds = new ObjectMapper().readValue(request.getInputStream(), User.class);
+            User userCredentials = new ObjectMapper().readValue(request.getInputStream(), User.class);
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getEmail(),
-                            creds.getPassword(),
+                            userCredentials.getEmail(),
+                            userCredentials.getPassword(),
                             new ArrayList<>())
 
             );
         } catch(IOException e) {
-            throw new RuntimeException();
+            throw new RuntimeException("Error reading the request's input stream", e);
         }
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        String token = authenticationService.login(((User) authResult.getPrincipal()).getEmail(), ((User) authResult.getPrincipal()).getPassword());
-        response.addHeader("Authorization", "Bearer " + token);
+        AuthenticationResponse authResponse = authenticationService.login(((org.springframework.security.core.userdetails.User) authResult.getPrincipal()).getUsername(), ((User) authResult.getCredentials()).getPassword());
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(new ObjectMapper().writeValueAsString(authResponse));
     }
 }

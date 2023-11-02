@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public class CommentGrammarDTO {
     private String cmtGrammarContent;
-    private LocalDateTime time;
     private int userId;
     private int baiGrammarId;
 
@@ -16,13 +15,6 @@ public class CommentGrammarDTO {
         this.cmtGrammarContent = cmtGrammarContent;
     }
 
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
 
     public int getUserId() {
         return userId;

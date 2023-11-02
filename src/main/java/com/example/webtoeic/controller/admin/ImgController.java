@@ -11,15 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-
+//@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 @RestController
 @RequestMapping("/api/images")
-//@PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
 public class ImgController {
     @Autowired
     private StorageService storageService;
     private final Tika tika = new Tika();
-
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {

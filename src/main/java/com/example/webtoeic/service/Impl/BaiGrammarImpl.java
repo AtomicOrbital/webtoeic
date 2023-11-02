@@ -75,8 +75,8 @@ public class BaiGrammarImpl implements BaiGrammarService {
     @Override
     public BaseResponse getAllBaiGrammar() {
         try {
-            List<BaiGrammar> baiGrammars = baiGrammarRepository.findAll();
-            return createResponse(200, "Retrieved successfully", baiGrammars);
+            List<BaiGrammar> baiGrammarEntities = baiGrammarRepository.findAll();
+            return createResponse(200, "Retrieved successfully", baiGrammarEntities);
         } catch (Exception e) {
             return createResponse(500, "Error retrieving all grammars", null);
         }
@@ -96,11 +96,11 @@ public class BaiGrammarImpl implements BaiGrammarService {
     @Override
     public BaseResponse searchListBaiGrammar(String search){
         try {
-            List<BaiGrammar> baiGrammars = baiGrammarRepository.searchGrammar(search);
-            if (baiGrammars.isEmpty()) {
+            List<BaiGrammar> baiGrammarEntities = baiGrammarRepository.searchGrammar(search);
+            if (baiGrammarEntities.isEmpty()) {
                 return createResponse(404, "No results found for the search query", null);
             } else {
-                return createResponse(200, "Search results retrieved successfully", baiGrammars);
+                return createResponse(200, "Search results retrieved successfully", baiGrammarEntities);
             }
         } catch (Exception e) {
             return createResponse(500, "Error processing search", null);

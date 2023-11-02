@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -38,10 +39,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request){
         String token = request.getHeader("Authorization");
         if(token != null){
-            String user = authenticationService.verifyToken(token.replace("Bearer ",""));
-
-            if(user != null){
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+            UserDetails userDetails = authenticationService.verifyToken(token.replace("Bearer ",""));
+            if(userDetails != null){
+                return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
             }
             return null;
         }
