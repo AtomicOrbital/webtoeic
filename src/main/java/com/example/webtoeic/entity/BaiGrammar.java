@@ -1,10 +1,14 @@
 package com.example.webtoeic.entity;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "bai_grammar")
@@ -28,16 +32,22 @@ public class BaiGrammar {
     @Column(columnDefinition = "TEXT", name="content_MarkDown")
     private String contentMarkDown;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "baiGrammar")
+    private List<VideoBaiGrammarEntity> videoBaiGrammarEntities = new ArrayList<>();
+
+
     public BaiGrammar(){
 
     }
 
-    public BaiGrammar(Integer baiGrammarId, String tenBaiGrammar, String anhBaiGrammar, String contentHTML, String contentMarkDown) {
+    public BaiGrammar(Integer baiGrammarId, String tenBaiGrammar, String anhBaiGrammar, String contentHTML, String contentMarkDown, List<VideoBaiGrammarEntity> videoBaiGrammarEntities) {
         this.baiGrammarId = baiGrammarId;
         this.tenBaiGrammar = tenBaiGrammar;
         this.anhBaiGrammar = anhBaiGrammar;
         this.contentHTML = contentHTML;
         this.contentMarkDown = contentMarkDown;
+        this.videoBaiGrammarEntities = videoBaiGrammarEntities;
     }
 
     public Integer getBaiGrammarId() {
@@ -78,5 +88,13 @@ public class BaiGrammar {
 
     public void setContentMarkDown(String contentMarkDown) {
         this.contentMarkDown = contentMarkDown;
+    }
+
+    public List<VideoBaiGrammarEntity> getVideoBaiGrammarEntities() {
+        return videoBaiGrammarEntities;
+    }
+
+    public void setVideoBaiGrammarEntities(List<VideoBaiGrammarEntity> videoBaiGrammarEntities) {
+        this.videoBaiGrammarEntities = videoBaiGrammarEntities;
     }
 }

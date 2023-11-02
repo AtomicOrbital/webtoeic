@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/comments")
-@PreAuthorize("hasRole('ROLE_USER')")
+@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
 public class CommentGrammarController {
     @Autowired
     private CommentGrammarService commentGrammarService;

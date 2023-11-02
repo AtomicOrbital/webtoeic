@@ -1,9 +1,5 @@
 package com.example.webtoeic.payload.response;
 
-import com.example.webtoeic.entity.BaiGrammar;
-
-import java.util.List;
-
 public class BaseResponse  {
     private int status;
     private String message;
