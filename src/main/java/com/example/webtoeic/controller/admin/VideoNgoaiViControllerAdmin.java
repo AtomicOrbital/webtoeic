@@ -32,7 +32,11 @@ public class VideoNgoaiViControllerAdmin {
             @RequestParam("file") MultipartFile file,
             @RequestParam("title") String title,
             @RequestParam("description") String description,
+<<<<<<< HEAD
             @RequestParam("baiNgoaiViId") int baiNgoaiViId) {
+=======
+            @RequestParam("baiNgoaiViId") int baiNgoaiViId ) {
+>>>>>>> origin/main
 
         BaseResponse response = videoNgoaiViService.createVideo(file, title, description, baiNgoaiViId);
 

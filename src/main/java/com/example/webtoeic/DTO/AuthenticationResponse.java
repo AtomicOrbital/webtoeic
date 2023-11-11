@@ -2,8 +2,11 @@ package com.example.webtoeic.DTO;
 
 public class AuthenticationResponse {
     private String token;
+<<<<<<< HEAD
 
     private String firebaseToken;
+=======
+>>>>>>> origin/main
     private int userId;
     private String role;
 
@@ -12,9 +15,14 @@ public class AuthenticationResponse {
 
     }
 
+<<<<<<< HEAD
     public AuthenticationResponse(String token, String firebaseToken, int userId, String role, String email) {
         this.token = token;
         this.firebaseToken = firebaseToken;
+=======
+    public AuthenticationResponse(String token, int userId, String role, String email) {
+        this.token = token;
+>>>>>>> origin/main
         this.userId = userId;
         this.role = role;
         this.email = email;
@@ -28,6 +36,7 @@ public class AuthenticationResponse {
         this.token = token;
     }
 
+<<<<<<< HEAD
     public String getFirebaseToken() {
         return firebaseToken;
     }
@@ -36,6 +45,8 @@ public class AuthenticationResponse {
         this.firebaseToken = firebaseToken;
     }
 
+=======
+>>>>>>> origin/main
     public int getUserId() {
         return userId;
     }
