@@ -66,20 +66,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/login/**",
+                .antMatchers("/api/images/**",
+                        "/api/upload/video/**",
+                        "/auth/login/**",
                         "/auth/register/**",
                         "/swagger-ui/**",
-                        "/v2/api-docs/**",
+                        "/api-docs/**",
                         "/swagger-resources/**",
                         "/webjars/**",
                         "/configuration/**",
                         "/swagger*/**",
                         "/webjars/springfox-swagger-ui/**").permitAll()
-//                .antMatchers("/**").authenticated()
-//                .hasAnyRole("ROLE_ADMIN", "ROLE_USER")
-//                .anyRequest().authenticated()
+                .anyRequest().authenticated()
                 .and()
-                .httpBasic().and()
                 //Filter cho việc đăng nhập
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(), authenticationService))
                 //Filter cho việc xác thực token

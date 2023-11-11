@@ -1,19 +1,22 @@
 package com.example.webtoeic.service;
 
+import com.example.webtoeic.DTO.AuthenticationResponse;
 import com.example.webtoeic.entity.User;
 import com.example.webtoeic.repository.UserRepositoty;
+import com.google.firebase.auth.FirebaseAuth;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.security.Key;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AuthenticationService {
@@ -24,15 +27,31 @@ public class AuthenticationService {
     private PasswordEncoder passwordEncoder;
 
     // Đoạn JWT_SECRET là bí mật, chỉ có phía server biết
-    private final Key JWT_SECRET = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    @Value("${jwt.secret-key}")
+    private String JWT_SECRET_STRING;
+
+    // method sử dụng key mở khóa
+    private Key getSecretKey() {
+        byte[] decodedKey = Base64.getDecoder().decode(JWT_SECRET_STRING);
+        return Keys.hmacShaKeyFor(decodedKey);
+    }
+    //    private final Key JWT_SECRET = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     // Thời gian có hiêu lực của jwt (10 ngày)
     private final long JWT_EXPIRATION = 864000000L;
 
-    public String login(String email, String password){
+    public AuthenticationResponse login(String email, String password){
         User user = userRepositoty.findByEmail(email);
-        if(user != null && passwordEncoder.matches(password, user.getPassword())){
-            // Thong tin dang nhap dung tao ra token
-            return createToken(user);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            // Thong tin dang nhap dung tao ra jwt token
+            String token = createToken(user);
+
+            String firebaseToken = createFirebaseCustomToken(String.valueOf(user.getId()));
+
+            String role = mapRoles(user.getVaiTro()).get(0);
+
+            // trả về email
+            AuthenticationResponse response = new AuthenticationResponse(token, firebaseToken, user.getId(), role, email);
+            return response;
         }
         throw new BadCredentialsException("Invalid email or password");
     }
@@ -64,7 +83,7 @@ public class AuthenticationService {
                 .claim("roles",mapRoles(user.getVaiTro()))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+                .signWith(getSecretKey())
                 .compact();
     }
 
@@ -81,19 +100,34 @@ public class AuthenticationService {
         return roles;
     }
 
-    public String verifyToken(String token){
+    public UserDetails verifyToken(String token){
         try {
             // Giải mã token
-            String email = Jwts.parser()
-                    .setSigningKey(JWT_SECRET)
+            String email = Jwts.parserBuilder()
+                    .setSigningKey(getSecretKey()).build()
                     .parseClaimsJws(token)
                     .getBody()
                     .getSubject();
             // trả về email từ token
-            return email;
+            User user = userRepositoty.findByEmail(email);
+            // Trả về một đối tượng UserDetails
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            for (String role : mapRoles(user.getVaiTro())) {
+                authorities.add(new SimpleGrantedAuthority(role));
+            }
+            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
         } catch (Exception e){
             // Nếu token không hợp lệ, hoặc hết hạn trả về null
             return null;
+        }
+    }
+    // Phương thức tạo custom token
+    private String createFirebaseCustomToken(String userId){
+        try {
+            String customToken = FirebaseAuth.getInstance().createCustomToken(userId);
+            return customToken;
+        }catch (Exception e){
+            throw  new RuntimeException(e);
         }
     }
 }

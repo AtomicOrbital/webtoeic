@@ -5,8 +5,6 @@ import com.example.webtoeic.entity.BaiGrammar;
 import com.example.webtoeic.payload.response.BaseResponse;
 import com.example.webtoeic.service.BaiGrammarService;
 import com.example.webtoeic.service.StorageService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.apache.poi.hwpf.HWPFDocument;
 
 import org.apache.poi.hwpf.converter.WordToHtmlConverter;
@@ -35,12 +33,10 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin/IoT")
-//@PreAuthorize("hasRole('ROLE_ADMIN')")
-//@PreAuthorize("hasRole('ROLE_USER')")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class BaiGrammarControllerAdmin {
     @Autowired
     private BaiGrammarService baiGrammarService;

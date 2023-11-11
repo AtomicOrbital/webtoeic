@@ -1,5 +1,6 @@
 package com.example.webtoeic.controller;
 
+import com.example.webtoeic.DTO.AuthenticationResponse;
 import com.example.webtoeic.DTO.LoginRequestDTO;
 import com.example.webtoeic.payload.response.BaseResponse;
 import com.example.webtoeic.service.AuthenticationService;
@@ -24,10 +25,11 @@ public class LoginController {
     public ResponseEntity<BaseResponse> login(@RequestBody LoginRequestDTO loginRequest){
         BaseResponse response = new BaseResponse();
         try {
-            String token = authenticationService.login(loginRequest.getEmail(), loginRequest.getPassword());
+            AuthenticationResponse authResponse = authenticationService.login(loginRequest.getEmail(), loginRequest.getPassword());
+            String token = authResponse.getToken();
             response.setStatus(HttpStatus.OK.value());
             response.setMessage("Login successfully");
-            response.setData(token);
+            response.setData(authResponse);
             return ResponseEntity.ok().header("Authorization", "Bearer " + token).body(response);
         } catch (BadCredentialsException e){
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
