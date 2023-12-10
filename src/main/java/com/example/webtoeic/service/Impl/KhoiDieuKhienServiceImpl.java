@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class KhoiDieuKhienServiceImpl implements KhoiDieuKhienService {
     @Autowired
     private KhoiDieuKhienRepository khoiDieuKhienRepository;
 
     @Override
+    @Transactional
     public BaseResponse save(KhoiDieuKhienEntity khoiDieuKhien) {
         try {
             khoiDieuKhien = khoiDieuKhienRepository.save(khoiDieuKhien);
@@ -31,6 +31,7 @@ public class KhoiDieuKhienServiceImpl implements KhoiDieuKhienService {
     }
 
     @Override
+    @Transactional
     public BaseResponse update(int id, KhoiDieuKhienEntity updatedKhoiDieuKhien) {
         Optional<KhoiDieuKhienEntity> optionalKhoiDieuKhien = khoiDieuKhienRepository.findById(id);
         if(optionalKhoiDieuKhien.isPresent()){
@@ -47,6 +48,7 @@ public class KhoiDieuKhienServiceImpl implements KhoiDieuKhienService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse getKhoiDieuKhien(int id) {
         Optional<KhoiDieuKhienEntity> optionalKhoiDieuKhien = khoiDieuKhienRepository.findById(id);
         if (optionalKhoiDieuKhien.isPresent()) {
@@ -57,6 +59,7 @@ public class KhoiDieuKhienServiceImpl implements KhoiDieuKhienService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse getKhoiDieuKhien(int page, int size) {
         try {
             Page<KhoiDieuKhienEntity> khoiDieuKhiens = khoiDieuKhienRepository.findAll(PageRequest.of(page, size));
@@ -67,6 +70,7 @@ public class KhoiDieuKhienServiceImpl implements KhoiDieuKhienService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse getAllKhoiDieuKhien() {
         try {
             List<KhoiDieuKhienEntity> khoiDieuKhienEntities = khoiDieuKhienRepository.findAll();
@@ -77,6 +81,7 @@ public class KhoiDieuKhienServiceImpl implements KhoiDieuKhienService {
     }
 
     @Override
+    @Transactional
     public BaseResponse delete(int id) {
         try {
             khoiDieuKhienRepository.deleteById(id);
@@ -87,6 +92,7 @@ public class KhoiDieuKhienServiceImpl implements KhoiDieuKhienService {
     }
 
     @Override
+    @Transactional
     public BaseResponse searchListKhoiDieuKhien(String search) {
         try {
             List<KhoiDieuKhienEntity> khoiDieuKhiens = khoiDieuKhienRepository.searchDieuKhien(search);

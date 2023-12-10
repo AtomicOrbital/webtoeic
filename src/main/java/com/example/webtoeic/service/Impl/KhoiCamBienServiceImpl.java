@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class KhoiCamBienServiceImpl implements KhoiCamBienService {
 
     @Autowired
     private KhoiCamBienRepository khoiCamBienRepository;
 
     @Override
+    @Transactional
     public BaseResponse save(KhoiCamBienEntity khoiCamBien) {
         try {
             khoiCamBien = khoiCamBienRepository.save(khoiCamBien);
@@ -31,6 +31,7 @@ public class KhoiCamBienServiceImpl implements KhoiCamBienService {
     }
 
     @Override
+    @Transactional
     public BaseResponse update(int id, KhoiCamBienEntity updatedKhoiCamBien) {
         Optional<KhoiCamBienEntity> optionalKhoiCamBien = khoiCamBienRepository.findById(id);
         if(optionalKhoiCamBien.isPresent()){
@@ -47,6 +48,7 @@ public class KhoiCamBienServiceImpl implements KhoiCamBienService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse getKhoiCamBien(int id) {
         Optional<KhoiCamBienEntity> optionalKhoiCamBien = khoiCamBienRepository.findById(id);
         if (optionalKhoiCamBien.isPresent()) {
@@ -56,8 +58,8 @@ public class KhoiCamBienServiceImpl implements KhoiCamBienService {
         }
     }
 
-    // If you have pagination in your service, you can use this:
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse getKhoiCamBien(int page, int size) {
         try {
             Page<KhoiCamBienEntity> khoiCamBiens = khoiCamBienRepository.findAll(PageRequest.of(page, size));
@@ -68,6 +70,7 @@ public class KhoiCamBienServiceImpl implements KhoiCamBienService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse getAllKhoiCamBien() {
         try {
             List<KhoiCamBienEntity> khoiCamBienEntities = khoiCamBienRepository.findAll();
@@ -78,6 +81,7 @@ public class KhoiCamBienServiceImpl implements KhoiCamBienService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse delete(int id) {
         try {
             khoiCamBienRepository.deleteById(id);
@@ -88,6 +92,7 @@ public class KhoiCamBienServiceImpl implements KhoiCamBienService {
     }
 
     @Override
+    @Transactional
     public BaseResponse searchListKhoiCamBien(String search) {
         try {
             List<KhoiCamBienEntity> khoiCamBiens = khoiCamBienRepository.searchCamBien(search);

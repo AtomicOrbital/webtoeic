@@ -5,8 +5,8 @@ public class AuthenticationResponse {
     private String firebaseToken;
     private int userId;
     private String role;
-
     private String email;
+
 
     public AuthenticationResponse() {
     }

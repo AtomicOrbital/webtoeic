@@ -14,6 +14,7 @@ import com.example.webtoeic.service.StorageService;
 import com.example.webtoeic.service.VideoBaiGrammarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -35,6 +36,7 @@ public class VideoGrammarServiceImpl implements VideoBaiGrammarService {
     private BaiGrammarRepository baiGrammarRepository;
 
     @Override
+    @Transactional
     public BaseResponse createVideo(MultipartFile file,
                                     String title,
                                     String description,
@@ -89,6 +91,7 @@ public class VideoGrammarServiceImpl implements VideoBaiGrammarService {
     }
 
     @Override
+    @Transactional
     public BaseResponse updateVideo(
             MultipartFile file,
             String title,
@@ -137,6 +140,7 @@ public class VideoGrammarServiceImpl implements VideoBaiGrammarService {
     }
 
     @Override
+    @Transactional
     public BaseResponse deleteVideo(int videoId, int baiGramamrId) {
         BaseResponse baseResponse = new BaseResponse();
         VideoBaiGrammarId videoBaiGrammarId = new VideoBaiGrammarId(videoId, baiGramamrId);

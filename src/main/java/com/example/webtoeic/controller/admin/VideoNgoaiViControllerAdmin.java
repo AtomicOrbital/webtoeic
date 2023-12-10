@@ -33,7 +33,6 @@ public class VideoNgoaiViControllerAdmin {
             @RequestParam("title") String title,
             @RequestParam("description") String description,
             @RequestParam("baiNgoaiViId") int baiNgoaiViId ) {
-
         BaseResponse response = videoNgoaiViService.createVideo(file, title, description, baiNgoaiViId);
 
 

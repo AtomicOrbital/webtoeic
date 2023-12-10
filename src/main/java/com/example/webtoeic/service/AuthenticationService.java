@@ -39,7 +39,7 @@ public class AuthenticationService {
     // Thời gian có hiêu lực của jwt (10 ngày)
     private final long JWT_EXPIRATION = 864000000L;
 
-    public AuthenticationResponse login(String email, String password){
+    public AuthenticationResponse login(String email, String password) {
         User user = userRepositoty.findByEmail(email);
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             // Thong tin dang nhap dung tao ra jwt token
@@ -48,7 +48,8 @@ public class AuthenticationService {
             String firebaseToken = createFirebaseCustomToken(String.valueOf(user.getId()));
 
             String role = mapRoles(user.getVaiTro()).get(0);
-
+            System.out.println("role: " + role);
+            System.out.println("userId: " + user.getId());
             // trả về email
             AuthenticationResponse response = new AuthenticationResponse(token, firebaseToken, user.getId(), role, email);
             return response;
@@ -121,6 +122,7 @@ public class AuthenticationService {
             return null;
         }
     }
+
     // Phương thức tạo custom token
     private String createFirebaseCustomToken(String userId){
         try {

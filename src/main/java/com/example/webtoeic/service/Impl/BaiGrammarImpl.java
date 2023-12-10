@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class BaiGrammarImpl implements BaiGrammarService {
     @Autowired
     BaiGrammarRepository baiGrammarRepository;
@@ -27,6 +26,7 @@ public class BaiGrammarImpl implements BaiGrammarService {
         return response;
     }
     @Override
+    @Transactional
     public BaseResponse save(BaiGrammar baiGrammar){
         try {
             baiGrammar = baiGrammarRepository.save(baiGrammar);
@@ -37,6 +37,7 @@ public class BaiGrammarImpl implements BaiGrammarService {
     }
 
     @Override
+    @Transactional
     public BaseResponse update(int id, BaiGrammar updatedBaiGrammar){
         Optional<BaiGrammar> optionalBaiGrammar = baiGrammarRepository.findById(id);
         if(optionalBaiGrammar.isPresent()){
@@ -53,6 +54,7 @@ public class BaiGrammarImpl implements BaiGrammarService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse getBaiGrammar(int id){
         Optional<BaiGrammar> optionalBaiGrammar = baiGrammarRepository.findByBaiGrammarId(id);
         if (optionalBaiGrammar.isPresent()) {
@@ -63,6 +65,7 @@ public class BaiGrammarImpl implements BaiGrammarService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse getBaiGrammar(int page, int size) {
         try {
             Page<BaiGrammar> baiGrammars = baiGrammarRepository.findAll(PageRequest.of(page, size));
@@ -73,6 +76,7 @@ public class BaiGrammarImpl implements BaiGrammarService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse getAllBaiGrammar() {
         try {
             List<BaiGrammar> baiGrammarEntities = baiGrammarRepository.findAll();
@@ -84,6 +88,7 @@ public class BaiGrammarImpl implements BaiGrammarService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse delete(int id){
         try {
             baiGrammarRepository.deleteById(id);
@@ -94,6 +99,7 @@ public class BaiGrammarImpl implements BaiGrammarService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse searchListBaiGrammar(String search){
         try {
             List<BaiGrammar> baiGrammarEntities = baiGrammarRepository.searchGrammar(search);

@@ -38,11 +38,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException{
         try {
-            User creds = new ObjectMapper().readValue(request.getInputStream(), User.class);
+            User userCredentials = new ObjectMapper().readValue(request.getInputStream(), User.class);
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getEmail(),
-                            creds.getPassword(),
+                            userCredentials.getEmail(),
+                            userCredentials.getPassword(),
                             new ArrayList<>())
 
             );
@@ -53,10 +53,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-//        AuthenticationResponse authResponse = authenticationService.login(((org.springframework.security.core.userdetails.User) authResult.getPrincipal()).getUsername(), ((User) authResult.getCredentials()).getPassword());
-//
-//        response.setContentType("application/json");
-//        response.setCharacterEncoding("UTF-8");
-//        response.getWriter().write(new ObjectMapper().writeValueAsString(authResponse));
+        AuthenticationResponse authResponse = authenticationService.login(((org.springframework.security.core.userdetails.User) authResult.getPrincipal()).getUsername(), ((User) authResult.getCredentials()).getPassword());
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(new ObjectMapper().writeValueAsString(authResponse));
     }
 }

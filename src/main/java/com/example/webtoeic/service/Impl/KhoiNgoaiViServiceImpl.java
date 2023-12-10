@@ -16,12 +16,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class KhoiNgoaiViServiceImpl implements KhoiNgoaiViService {
     @Autowired
     private KhoiNgoaiViRepository khoiNgoaiViRepository;
 
     @Override
+    @Transactional
     public BaseResponse save(KhoiNgoaiViEntity khoiNgoaiVi) {
         try {
             khoiNgoaiVi = khoiNgoaiViRepository.save(khoiNgoaiVi);
@@ -32,6 +32,7 @@ public class KhoiNgoaiViServiceImpl implements KhoiNgoaiViService {
     }
 
     @Override
+    @Transactional
     public BaseResponse update(int id, KhoiNgoaiViEntity updatedKhoiNgoaiVi) {
         Optional<KhoiNgoaiViEntity> optionalKhoiNgoaiVi = khoiNgoaiViRepository.findById(id);
         if(optionalKhoiNgoaiVi.isPresent()){
@@ -48,6 +49,7 @@ public class KhoiNgoaiViServiceImpl implements KhoiNgoaiViService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse getKhoiNgoaiVi(int id) {
         Optional<KhoiNgoaiViEntity> optionalKhoiNgoaiVi = khoiNgoaiViRepository.findById(id);
         if (optionalKhoiNgoaiVi.isPresent()) {
@@ -58,6 +60,7 @@ public class KhoiNgoaiViServiceImpl implements KhoiNgoaiViService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse getKhoiNgoaiVi(int page, int size) {
         try {
             Page<KhoiNgoaiViEntity> khoiDieuKhiens = khoiNgoaiViRepository.findAll(PageRequest.of(page, size));
@@ -68,6 +71,7 @@ public class KhoiNgoaiViServiceImpl implements KhoiNgoaiViService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse getAllKhoiNgoaiVi() {
         try {
             List<KhoiNgoaiViEntity> khoiNgoaiViEntities = khoiNgoaiViRepository.findAll();
@@ -78,6 +82,7 @@ public class KhoiNgoaiViServiceImpl implements KhoiNgoaiViService {
     }
 
     @Override
+    @Transactional
     public BaseResponse delete(int id) {
         try {
             khoiNgoaiViRepository.deleteById(id);
@@ -88,6 +93,7 @@ public class KhoiNgoaiViServiceImpl implements KhoiNgoaiViService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaseResponse searchListKhoiNgoaiVi(String search) {
         try {
             List<KhoiDieuKhienEntity> khoiDieuKhiens = khoiNgoaiViRepository.searchDieuKhien(search);

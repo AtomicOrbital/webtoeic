@@ -22,7 +22,8 @@ public class StorageService {
     @Autowired
     private FileDataRepository fileDataRepository;
 
-    private final String FOLDER_PATH = "/media/thanhdat/data1/JavaCyber/JavaSpring/webtoeic/Myfile/";
+    @Value("${upload-image.path}")
+    private String FOLDER_PATH;
 
     @Value("${upload-video.path}")
     private String folderPath;
@@ -106,5 +107,6 @@ public class StorageService {
             throw e;
         }
     }
+
 }
 

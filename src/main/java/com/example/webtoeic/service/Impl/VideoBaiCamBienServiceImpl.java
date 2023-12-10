@@ -12,6 +12,7 @@ import com.example.webtoeic.service.StorageService;
 import com.example.webtoeic.service.VideoBaiCamBienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -33,6 +34,7 @@ public class VideoBaiCamBienServiceImpl implements VideoBaiCamBienService {
     private KhoiCamBienRepository khoiCamBienRepository;
 
     @Override
+    @Transactional
     public BaseResponse createVideo(MultipartFile file,
                                     String title,
                                     String description,
@@ -86,6 +88,7 @@ public class VideoBaiCamBienServiceImpl implements VideoBaiCamBienService {
     }
 
     @Override
+    @Transactional
     public BaseResponse updateVideo(MultipartFile file,
                                     String title,
                                     String description,
@@ -133,6 +136,7 @@ public class VideoBaiCamBienServiceImpl implements VideoBaiCamBienService {
     }
 
     @Override
+    @Transactional
     public BaseResponse deleteVideo(int videoId, int baiCamBienId) {
         BaseResponse baseResponse = new BaseResponse();
         VideoCamBienId videoCamBienId = new VideoCamBienId(videoId, baiCamBienId);
