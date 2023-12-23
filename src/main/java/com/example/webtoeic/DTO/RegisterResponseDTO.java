@@ -1,21 +1,15 @@
 package com.example.webtoeic.DTO;
 
-public class RegisterRequestDTO {
+public class RegisterResponseDTO {
+    private String email;
+    private String password;
 
-   private String email;
-   private String password;
-   private int vaiTro;
-
-
-
-    public RegisterRequestDTO(){
-
+    public RegisterResponseDTO() {
     }
 
-    public RegisterRequestDTO(String email, String password, int vaiTro) {
+    public RegisterResponseDTO(String email, String password) {
         this.email = email;
         this.password = password;
-        this.vaiTro = vaiTro;
     }
 
     public String getEmail() {
@@ -32,13 +26,5 @@ public class RegisterRequestDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public int getVaiTro() {
-        return vaiTro;
-    }
-
-    public void setVaiTro(int vaiTro) {
-        this.vaiTro = vaiTro;
     }
 }

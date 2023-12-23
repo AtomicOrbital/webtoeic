@@ -14,6 +14,7 @@ import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFPictureData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
@@ -92,7 +93,9 @@ public class CamBienControllerAdmin {
         return images;
     }
 
-    private static final String BASE_UPLOAD_IMAGE_URL = "http://localhost:8081/api/images/download/";
+
+    @Value("${app.base-upload-image-url}")
+    private String BASE_UPLOAD_IMAGE_URL;
 
     @PostMapping("/create")
     public ResponseEntity<?> createKhoiCamBien(

@@ -2,10 +2,10 @@ package com.example.webtoeic.service;
 
 import com.example.webtoeic.DTO.AuthenticationResponse;
 import com.example.webtoeic.entity.User;
+import com.example.webtoeic.payload.response.BaseResponse;
 import com.example.webtoeic.repository.UserRepositoty;
 import com.google.firebase.auth.FirebaseAuth;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,7 +57,7 @@ public class AuthenticationService {
         throw new BadCredentialsException("Invalid email or password");
     }
 
-    public User register(String email, String password) throws IllegalAccessException {
+    public User register(String email, String password, int vaiTro) throws IllegalAccessException {
         //Kiểm tra xem email tồn tại không
         Optional<User> existingUser = Optional.ofNullable(userRepositoty.findByEmail(email));
         if(existingUser.isPresent()){
@@ -71,8 +71,34 @@ public class AuthenticationService {
         User newUser = new User();
         newUser.setEmail(email);
         newUser.setPassword(encryptedPassword);
+        newUser.setVaiTro(vaiTro);
 
         return userRepositoty.save(newUser);
+    }
+
+    public User updateUser(int userId, String newEmail, String newPassword, Integer newVaiTro){
+        User user = userRepositoty.findById(userId)
+                .orElseThrow(()->new NoSuchElementException("User not found with id: " + userId));
+
+        if (newEmail != null && !newEmail.isEmpty()) {
+            user.setEmail(newEmail);
+        }
+        if (newPassword != null && !newPassword.isEmpty()) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+        }
+        if (newVaiTro != null) {
+            user.setVaiTro(newVaiTro);
+        }
+        return userRepositoty.save(user);
+    }
+
+    public BaseResponse deleteUser(int userId){
+        userRepositoty.deleteById(userId);
+        return null;
+    }
+
+    public List<User> getAllUsers(){
+        return userRepositoty.findAll();
     }
 
     private String createToken(User user) {
