@@ -81,7 +81,7 @@ public class KhoiCamBienServiceImpl implements KhoiCamBienService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
     public BaseResponse delete(int id) {
         try {
             khoiCamBienRepository.deleteById(id);

@@ -88,7 +88,7 @@ public class BaiGrammarImpl implements BaiGrammarService {
 
 
     @Override
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
     public BaseResponse delete(int id){
         try {
             baiGrammarRepository.deleteById(id);

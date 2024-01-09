@@ -1,12 +1,11 @@
 package com.example.webtoeic.controller.admin;
 
-import com.example.webtoeic.DTO.*;
-import com.example.webtoeic.entity.KhoiCamBienEntity;
+import com.example.webtoeic.DTO.BaiDieuKhienWithVideoDTO;
+import com.example.webtoeic.DTO.DieuKhienWithVideoDTO;
+import com.example.webtoeic.DTO.VideoBaiDieuKhienResponseDTO;
 import com.example.webtoeic.entity.KhoiDieuKhienEntity;
 import com.example.webtoeic.payload.response.BaseResponse;
-import com.example.webtoeic.service.KhoiCamBienService;
 import com.example.webtoeic.service.KhoiDieuKhienService;
-import com.example.webtoeic.service.VideoBaiCamBienService;
 import com.example.webtoeic.service.VideoBaiDieuKhienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
