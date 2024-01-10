@@ -140,7 +140,7 @@ public class VideoGrammarServiceImpl implements VideoBaiGrammarService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false)
     public BaseResponse deleteVideo(int videoId, int baiGramamrId) {
         BaseResponse baseResponse = new BaseResponse();
         VideoBaiGrammarId videoBaiGrammarId = new VideoBaiGrammarId(videoId, baiGramamrId);
